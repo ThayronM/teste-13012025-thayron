@@ -1,3 +1,8 @@
+'''
+Função que calcula a economia anual, economia mensal, desconto aplicado e cobertura
+de um cliente de acordo com o consumo, tarifa e classe.
+'''
+
 def calculadora(consumo: list, tarifa: float, classe: str) -> tuple:
     """
     retorna uma tupla de floats contendo economia anual, economia mensal, desconto aplicado e cobertura.
@@ -8,6 +13,51 @@ def calculadora(consumo: list, tarifa: float, classe: str) -> tuple:
     cobertura = 0
 
     # Desenvolva seu código aqui #
+    
+    # Média de consumo
+    media_consumo = sum(consumo) / len(consumo)
+    # print(media_consumo)
+
+    # Consumo residencial
+    if classe == "Residencial":
+        if media_consumo < 10000:
+            desconto_aplicado = 0.18
+            cobertura = 0.90
+        elif media_consumo <= 20000:
+            desconto_aplicado = 0.22
+            cobertura = 0.95
+        else:
+            desconto_aplicado = 0.25
+            cobertura = 0.99
+
+    # Consumo comercial
+    elif classe == "Comercial":
+        if media_consumo < 10000:
+            desconto_aplicado = 0.16
+            cobertura = 0.90
+        elif media_consumo <= 20000:
+            desconto_aplicado = 0.18
+            cobertura = 0.95
+        else:
+            desconto_aplicado = 0.22
+            cobertura = 0.99
+                   
+    # Consumo industrial
+    elif classe == "Industrial":
+        if media_consumo < 10000:
+            desconto_aplicado = 0.12
+            cobertura = 0.90
+        elif media_consumo <= 20000:
+            desconto_aplicado = 0.15
+            cobertura = 0.95
+        else:
+            desconto_aplicado = 0.18
+            cobertura = 0.99
+
+    # Calcular economia
+    economia_anual = cobertura * media_consumo * tarifa * 12 * desconto_aplicado
+    economia_mensal = economia_anual / 12
+
 
     return (
         round(economia_anual, 2),

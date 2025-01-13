@@ -1,3 +1,10 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+import time
+import pyautogui as pg
+
 def calculadora(consumo: list, classe: str, bandeira: str) -> tuple:
     """
     retorna uma tupla de floats contendo economia anual, economia mensal, desconto aplicado e cobertura.
@@ -8,7 +15,84 @@ def calculadora(consumo: list, classe: str, bandeira: str) -> tuple:
     cobertura = 0
 
     # Desenvolva seu código aqui #
+    
+    # acessando o site da cemig
+    web = webdriver.Chrome()
+    web.get("https://www.cemig.com.br/atendimento/valores-de-tarifas-e-servicos/")
 
+    # média de consumo
+    media_consumo = sum(consumo) / len(consumo)
+    # print(media_consumo)
+    
+    # economia residencial
+    if classe == "Residencial":
+        if bandeira == "BANDEIRA VERDE":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[8]/div/div/div/table/tbody/tr/td[2]')
+        if bandeira == "BANDEIRA AMARELA":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[8]/div/div/div/table/tbody/tr/td[3]')
+        if bandeira == "BANDEIRA VERMELHA 1":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[8]/div/div/div/table/tbody/tr/td[4]')
+        
+        if media_consumo < 10000:
+            desconto_aplicado = 0.18
+            cobertura = 0.90   
+        elif media_consumo >= 10000 and media_consumo <= 20000:
+            desconto_aplicado = 0.22
+            cobertura = 0.95  
+        else:
+            desconto_aplicado = 0.25
+            cobertura = 0.99
+            
+        
+    # economia comercial
+    elif classe == "Comercial":
+        if bandeira == "BANDEIRA VERDE":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[14]/div/div/div/table/tbody/tr/td[2]')
+        if bandeira == "BANDEIRA AMARELA":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[14]/div/div/div/table/tbody/tr/td[3]')
+        if bandeira == "BANDEIRA VERMELHA 1":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[14]/div/div/div/table/tbody/tr/td[4]')
+        if bandeira == "BANDEIRA VERMELHA 2":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[14]/div/div/div/table/tbody/tr/td[5]')
+
+        if media_consumo < 10000:
+            desconto_aplicado = 0.16
+            cobertura = 0.90    
+        elif media_consumo >= 10000 and media_consumo <= 20000:
+            desconto_aplicado = 0.18
+            cobertura = 0.95
+        else:
+            desconto_aplicado = 0.22
+            cobertura = 0.99
+            
+            
+    # economia industrial
+    elif classe == "Industrial":
+        if bandeira == "BANDEIRA VERDE":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[14]/div/div/div/table/tbody/tr/td[2]')
+        if bandeira == "BANDEIRA AMARELA":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[14]/div/div/div/table/tbody/tr/td[3]')
+        if bandeira == "BANDEIRA VERMELHA 1":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[14]/div/div/div/table/tbody/tr/td[4]')
+        if bandeira == "BANDEIRA VERMELHA 2":
+            bandeira = web.find_element(By.XPATH, '//*[@id="main-content"]/section[14]/div/div/div/table/tbody/tr/td[5]')
+            
+        if media_consumo < 10000:
+            desconto_aplicado = 0.12
+            cobertura = 0.90
+        elif media_consumo >= 10000 and media_consumo <= 20000:
+            desconto_aplicado = 0.15
+            cobertura = 0.95    
+        else:
+            desconto_aplicado = 0.18
+            cobertura = 0.99
+          
+    # bandeira para float
+    bandeira = float(bandeira.text.replace(",", "."))
+    economia_anual = cobertura * media_consumo * bandeira * 12 * desconto_aplicado 
+    economia_mensal = economia_anual / 12
+        
+        
     return (
         round(economia_anual, 2),
         round(economia_mensal, 2),

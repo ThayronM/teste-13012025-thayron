@@ -5,6 +5,19 @@
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 </p>
 
+<h2 id="Desenvolvimento_Thayron" style="text-align:center;border-bottom:none">Desafio 1</h2>
+
+### Dependências
+Foram desenvolvidos os dois desafios solicitados. Para o primeiro desafio, nenhuma biblioteca foi importada. Já o segundo, foi usado a biblioteca selenium para fazer a captura dos valores da tarifa de forma automatizada. a execução foi feita usando da IDE do VSCode e Python 3.12.
+
+Para instalar as dependências, basta digitar no terminal:
+
+    pip install -r 'requirements.txt'
+
+### Funcionamento
+Para executar os Scripts basta dar o run após as dependências estarem instaladas. No desafio 2, foi necessário ter o webdriver do Chrome instalado e dentro da pasta python3.12 do computador.
+
+
 <h2 id="desafio1" style="text-align:center;border-bottom:none">Desafio 1</h2>
 
 Uma empresa de assinatura de energia deseja criar uma calculadora de economia para seu site e contratou você para desenvolver essa solução. Como requisito, foi estabelecido que a aplicação deve ser desenvolvida utilizando a linguagem Python.
